@@ -1,0 +1,11 @@
+---
+
+- name: deploy nextcloud
+  hosts: my-nextcloud
+  vars_files:
+    - "vars.yml"
+    - "secrets.yml"
+  roles:
+    - nextcloud
+  remote_user: ansible
+  become: yes
