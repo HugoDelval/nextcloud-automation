@@ -9,12 +9,18 @@ The goal of this project is to automate the deployment of a stable nextcloud ins
 - Backup of the DB (postgresql)
 - Backup of nextcloud data
 
+## Prerequisites
+
+- Having a server
+- Having a little experience with linux management (eg: how to create ssh key files, managing sshd access, sudoers)
+- Knowing a bit on `ansible` and `docker` are a big plus
+
 ## How to launch the deployment?
 
 First you need a server. Then get its IP address and change the `ansible/inventory/hosts.ini` by setting this IP addres, eg:
 
 ```ini
-[your-nextcloud]
+[my-nextcloud]
 192.0.2.7 # change this line
 ```
 
@@ -24,7 +30,7 @@ Then you need to change the file `ansible/nextcloud/secrets.yml` to set you own 
 # Here will go an example of the secret.yml file
 ```
 
-You can see in `ansible/playbooks/nextcloud/play.yml` that we're using an `ansible` user with root access through `sudo`. You can adapt this file if you choose to do differently. If you choose to stay with this setup then you need to create an `ansible` user on you server with sudo access like this (`/etc/sudoers`):
+You can see in `ansible/playbooks/nextcloud/play.yml` that we're using an `ansible` user with root access through `sudo`. You can adapt this file if you choose another setup. If you choose to stay with this, then you need to create an `ansible` user on you server with sudo access like this (`/etc/sudoers`):
 
 ```
 %sudo  ALL=(ALL) NOPASSWD:ALL
@@ -44,11 +50,17 @@ private_key_file = /home/ansible/.ssh/id_ed25519_ansible
 
 Please adapt this so the local user launching `ansible` can connect to your server using SSH. For example, if you're launching `ansible` with the user `foo` change this line like this:
 
+```
+private_key_file = /home/foo/.ssh/id_ed25519_ansible
+```
+
+Create a new ssh key:
+
 ```bash
 ssh-keygen -f /home/foo/.ssh/id_ed25519_ansible -t ed25519
 ```
 
-Then copy the content of `/home/foo/.ssh/id_ed25519_ansible.pub` and copy it on your server in `/home/ansible/.ssh/authorized_keys`
+Then copy the content of `/home/foo/.ssh/id_ed25519_ansible.pub` and paste it on your server in `/home/ansible/.ssh/authorized_keys`
 
 With this your setup should be done! You can launch the deployment using:
 
