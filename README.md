@@ -94,6 +94,7 @@ TODO
 - Nextcloud
     - docker image https://hub.docker.com/_/nextcloud/
     - docs https://docs.nextcloud.com/server/18/admin_manual/installation/index.html
+- Collabora online https://hub.docker.com/r/collabora/code
 - nginx:
     - Nginx Proxy https://github.com/nginx-proxy/nginx-proxy
     - Letsencrypt Nginx proxy companion https://github.com/nginx-proxy/docker-letsencrypt-nginx-proxy-companion
