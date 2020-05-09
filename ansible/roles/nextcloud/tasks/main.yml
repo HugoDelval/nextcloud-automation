@@ -1,1 +1,23 @@
 ---
+
+# install docker / docker-compose
+# https://github.com/nickjj/ansible-docker/tree/v1.9.2
+- role: "nickjj.docker"
+  tags: ["docker"]
+
+- name: Create nextcloud directory
+  file:
+    path: /srv/nextcloud
+    state: directory
+    mode: '0750'
+    recurse: yes
+
+- name: Create conf directory
+  copy:
+    src: conf
+    dest: /srv/nextcloud/conf
+
+- name: Create docker-compose file
+  template:
+    src: docker-compose.yml
+    dest: /srv/nextcloud/docker-compose.yml

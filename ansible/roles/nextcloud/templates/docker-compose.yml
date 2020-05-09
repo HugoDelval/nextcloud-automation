@@ -1,0 +1,99 @@
+---
+
+# see: https://github.com/nextcloud/docker/tree/master/.examples
+
+version: '2'
+
+services:
+  db:
+    image: postgres:12-alpine
+    restart: unless-stopped
+    volumes:
+      - {{ postgres_volume_host }}:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB={{ POSTGRES_DB }}
+      - POSTGRES_USER={{ POSTGRES_USER }}
+      - POSTGRES_PASSWORD={{ POSTGRES_PASSWORD }}
+    secrets:
+      - postgres_db
+      - postgres_password
+      - postgres_user
+
+  redis:
+    image: redis:6-alpine
+    restart: unless-stopped
+
+  app:
+    image: nextcloud:18-fpm-alpine
+    links:
+      - db
+    volumes:
+      - {{ nextcloud_volume_host }}:/var/www/html
+    restart: unless-stopped
+    depends_on:
+      - db
+      - redis
+    environment:
+      - REDIS_HOST=redis
+      - POSTGRES_HOST=db
+      - POSTGRES_DB={{ POSTGRES_DB }}
+      - POSTGRES_USER={{ POSTGRES_USER }}
+      - POSTGRES_PASSWORD={{ POSTGRES_PASSWORD }}
+      - NEXTCLOUD_ADMIN_PASSWORD={{ NEXTCLOUD_ADMIN_PASSWORD }}
+      - NEXTCLOUD_ADMIN_USER={{ NEXTCLOUD_ADMIN_USER }}
+
+  web:
+    image: nginx:1.18-alpine
+    restart: unless-stopped
+    volumes:
+      - {{ nextcloud_volume_host }}:/var/www/html:ro
+      - ./conf/nginx.conf:/etc/nginx/nginx.conf:ro
+    environment:
+      - VIRTUAL_HOST={{ VIRTUAL_HOST }}
+      - LETSENCRYPT_HOST={{ LETSENCRYPT_HOST }}
+      - LETSENCRYPT_EMAIL={{ LETSENCRYPT_EMAIL }}
+    depends_on:
+      - app
+    networks:
+      - proxy-tier
+      - default
+
+  proxy:
+    # no fixed tag for now: https://github.com/nginx-proxy/nginx-proxy/issues/1367
+    # this could lead to undesired behaviour, careful! Change to a fixed tag ASAP
+    image: jwilder/nginx-proxy:alpine
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    labels:
+      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
+    volumes:
+      - certs:/etc/nginx/certs:ro
+      - vhost.d:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./conf/uploadsize.conf:/etc/nginx/conf.d/uploadsize.conf:ro
+    networks:
+      - proxy-tier
+
+  letsencrypt-companion:
+    image: jrcs/letsencrypt-nginx-proxy-companion:v1.12.1
+    restart: unless-stopped
+    volumes:
+      - certs:/etc/nginx/certs
+      - vhost.d:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - proxy-tier
+    depends_on:
+      - proxy
+
+volumes:
+  certs:
+  vhost.d:
+  html:
+
+networks:
+  proxy-tier:

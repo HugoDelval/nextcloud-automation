@@ -1,0 +1,3 @@
+[submodule "ansible/roles/nickjj.docker"]
+	path = ansible/roles/nickjj.docker
+	url = https://github.com/nickjj/ansible-docker

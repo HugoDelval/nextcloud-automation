@@ -11,7 +11,7 @@ The goal of this project is to automate the deployment of a stable nextcloud ins
 
 ## Prerequisites
 
-- Having a server
+- Having a debian-based server (you need an apt package manager)
 - Having a little experience with linux management (eg: how to create ssh key files, managing sshd access, sudoers)
 - Knowing a bit on `ansible` and `docker` are a big plus
 
@@ -95,4 +95,7 @@ TODO
 python -m venv venv
 . venv/bin/activate
 pip install -r requirements.txt
+
+git submodule init
+git submodule update
 ```

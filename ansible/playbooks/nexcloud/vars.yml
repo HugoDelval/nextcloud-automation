@@ -1,1 +1,17 @@
 ---
+POSTGRES_DB: nextcloud
+POSTGRES_USER: nextcloud
+NEXTCLOUD_ADMIN_USER: admin
+
+postgres_volume_host: /var/disk1/postgresql_data
+nextcloud_volume_host: /var/disk1/nextcloud_var_www_html
+
+VIRTUAL_HOST: nuage.hugodelval.com
+LETSENCRYPT_HOST: nuage.hugodelval.com
+LETSENCRYPT_EMAIL: hugo.delval@gmail.com
+
+# ansible-docker variables
+# https://github.com/nickjj/ansible-docker/tree/v1.9.2
+docker__version: ""
+docker__state: "latest"
+docker__compose_version: ""
