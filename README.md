@@ -12,6 +12,7 @@ The goal of this project is to automate the deployment of a stable nextcloud ins
 ## Prerequisites
 
 - Having a debian-based server (you need an apt package manager)
+- A DNS entry pointing to your server
 - Having a little experience with linux management (eg: how to create ssh key files, managing sshd access, sudoers)
 - Knowing a bit on `ansible` and `docker` are a big plus
 
@@ -23,6 +24,8 @@ First you need a server. Then get its IP address and change the `ansible/invento
 [my-nextcloud]
 192.0.2.7 # change this line
 ```
+
+Adapt the `ansible/nextcloud/vars.yml` to your needs. **IMPORTANT:** change the domain names!
 
 Then you need to change the file `ansible/nextcloud/secrets.yml` to set you own secrets. You can choose to use `ansible-vault` (https://docs.ansible.com/ansible/latest/user_guide/vault.html) but it's not mandatory, you can also just put unencrypted variables in `secrets.yml`
 
@@ -67,6 +70,16 @@ With this your setup should be done! You can launch the deployment using:
 ```bash
 cd ansible && ansible-playbook -vvv ./playbooks/nexcloud/play.yml
 ```
+
+Once it is done, you'll need to launch the service manually. We could do it in ansible also, but we chose to do it manually for now.
+
+```bash
+ssh my_server
+cd /srv/nextcloud
+docker-compose up -d
+```
+
+Wait a bit, the installation is going on, then go to your
 
 ## How to setup backups?
 

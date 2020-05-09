@@ -1,10 +1,4 @@
 ---
-
-# install docker / docker-compose
-# https://github.com/nickjj/ansible-docker/tree/v1.9.2
-- role: "nickjj.docker"
-  tags: ["docker"]
-
 - name: Create nextcloud directory
   file:
     path: /srv/nextcloud
@@ -15,7 +9,7 @@
 - name: Create conf directory
   copy:
     src: conf
-    dest: /srv/nextcloud/conf
+    dest: /srv/nextcloud/
 
 - name: Create docker-compose file
   template:

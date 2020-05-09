@@ -1,11 +1,14 @@
 ---
 
 - name: deploy nextcloud
-  hosts: my-nextcloud
+  hosts: my_nextcloud
   vars_files:
     - "vars.yml"
     - "secrets.yml"
-  roles:
+  roles:    
+    # install docker / docker-compose
+    # https://github.com/nickjj/ansible-docker/tree/v1.9.2
+    - nickjj.docker
     - nextcloud
   remote_user: ansible
   become: yes

@@ -2,11 +2,12 @@
 POSTGRES_DB: nextcloud
 POSTGRES_USER: nextcloud
 NEXTCLOUD_ADMIN_USER: admin
+NEXTCLOUD_TRUSTED_DOMAINS: nuage.hugodelval.com
 
 postgres_volume_host: /var/disk1/postgresql_data
 nextcloud_volume_host: /var/disk1/nextcloud_var_www_html
 
-VIRTUAL_HOST: nuage.hugodelval.com
+frontend_hostname: nuage.hugodelval.com
 LETSENCRYPT_HOST: nuage.hugodelval.com
 LETSENCRYPT_EMAIL: hugo.delval@gmail.com
 
@@ -15,3 +16,9 @@ LETSENCRYPT_EMAIL: hugo.delval@gmail.com
 docker__version: ""
 docker__state: "latest"
 docker__compose_version: ""
+
+# collabora online
+# IMPORTANT: Note the backslashs before the dots here (and only here)!
+collabora_nextcloud_domain: 'nuage\.hugodelval\.com'
+collabora_admin_username: admin
+collabora_domain: collabora.hugodelval.com
