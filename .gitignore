@@ -3,3 +3,4 @@ __pycache__/
 *.pyc
 ansible/vaultpass
 ansible/inventory/hosts.ini
+ansible/ansible.cfg
