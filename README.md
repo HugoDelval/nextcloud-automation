@@ -6,6 +6,7 @@ The goal of this project is to automate the deployment of a stable nextcloud ins
 - an HTTP proxy (nginx, ssl with letsencrypt)
 - PostgreSQL
 - Redis
+- Collabora online to edit files online (a LibreOffice editor interface)
 - Backup of the DB (postgresql)
 - Backup of nextcloud data
 
