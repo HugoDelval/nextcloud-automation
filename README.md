@@ -102,7 +102,23 @@ cd /srv/nextcloud
 docker-compose up -d
 ```
 
-Wait a bit, the installation is going on, then go to your
+Wait a bit, the installation is going on, then go to your main domain name (`ansible/playbooks/nextcloud/vars.yml::NEXTCLOUD_TRUSTED_DOMAINS`)
+
+To follow the installation process you can launch:
+
+```shell
+/srv/nextcloud # docker-compose logs -f
+```
+
+And wait for these lines:
+
+```
+app_1                    | Nextcloud was successfully installed
+app_1                    | setting trusted domains…
+app_1                    | System config value trusted_domains => 1 set to string xxx.your-domain.tld
+app_1                    | [...] NOTICE: fpm is running, pid 1
+app_1                    | [...] NOTICE: ready to handle connections
+```
 
 ## Thanks to
 
@@ -131,5 +147,5 @@ git submodule update
 
 ## TODO
 
-- enable SMTP
+- enable SMTP from env vars
 - issues with caldav?
