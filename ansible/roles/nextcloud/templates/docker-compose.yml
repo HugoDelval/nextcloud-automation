@@ -79,6 +79,7 @@ services:
     restart: unless-stopped
     volumes:
       - {{ nextcloud_volume_host }}:/var/www/html
+      - ./conf/cron:/var/spool/cron/crontabs/www-data
     entrypoint: /cron.sh
     depends_on:
       - db
