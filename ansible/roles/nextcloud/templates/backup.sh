@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euxo pipefail
 
-docker-compose -f /srv/nextcloud/docker-compose.yml exec --user www-data app php occ maintenance:mode --on
+/usr/local/bin/docker-compose -f /srv/nextcloud/docker-compose.yml exec --user www-data app php occ maintenance:mode --on
 
 mkdir -p /var/backups && chmod 750 /var/backups
 
@@ -13,9 +13,9 @@ rsync -Aavx nextcloud_var_www_html/ ${BACKUP_FOLDER}
 tar cfz ${BACKUP_FOLDER}-html.tgz ${BACKUP_FOLDER}
 rm -rf ${BACKUP_FOLDER}
 
-docker-compose -f /srv/nextcloud/docker-compose.yml exec --user postgres db pg_dump -U nextcloud nextcloud | gzip -c > ${BACKUP_FOLDER}-postgres.gz
+/usr/local/bin/docker-compose -f /srv/nextcloud/docker-compose.yml exec --user postgres db pg_dump -U nextcloud nextcloud | gzip -c > ${BACKUP_FOLDER}-postgres.gz
 
-docker-compose -f /srv/nextcloud/docker-compose.yml exec --user www-data app php occ maintenance:mode --off
+/usr/local/bin/docker-compose -f /srv/nextcloud/docker-compose.yml exec --user www-data app php occ maintenance:mode --off
 
 files_to_remove=$(ls -t /var/backups/nextcloud-backup_* | tail -n +{{ number_of_backups_to_keep_on_disk*2 }})
 
