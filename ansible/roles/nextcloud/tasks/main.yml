@@ -15,3 +15,34 @@
   template:
     src: docker-compose.yml
     dest: /srv/nextcloud/docker-compose.yml
+
+- name: Install backup dependencies
+  apt:
+    name:
+      - python3-pip
+      - cron
+      - rsync
+    state: latest
+
+- name: Install swift
+  pip:
+    name:
+      - python-keystoneclient
+      - python-swiftclient
+    executable: /usr/bin/pip3
+  when: enable_swift_backups
+
+- name: install backup script
+  template:
+    src: backup.sh
+    dest: /usr/local/bin/backup-nextcloud.sh
+    mode: '0750'
+
+- name: Launch backup every day
+  cron:
+    name: backup nextcloud
+    minute: "7"
+    hour: "3"
+    user: root
+    job: "/usr/local/bin/backup-nextcloud.sh > /root/backup_nextcloud.log 2>&1"
+    cron_file: backup_nextcloud

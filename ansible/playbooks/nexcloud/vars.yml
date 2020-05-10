@@ -17,8 +17,21 @@ docker__version: ""
 docker__state: "latest"
 docker__compose_version: ""
 
+enable_collabora: true  # set this to false to disable collabora online
 # collabora online
 # IMPORTANT: Note the backslashs before the dots here (and only here)!
 collabora_nextcloud_domain: 'nuage\.hugodelval\.com'
 collabora_admin_username: admin
 collabora_domain: collabora.hugodelval.com
+
+number_of_backups_to_keep_on_disk: 2
+# set this to false if you want to backup your data another way
+enable_swift_backups: true
+number_of_backups_to_keep_on_swift: 10
+OS_AUTH_URL: https://auth.cloud.ovh.net/v3
+OS_USER_DOMAIN_NAME: Default
+OS_PROJECT_DOMAIN_ID: default
+OS_INTERFACE: public
+OS_IDENTITY_API_VERSION: 3
+OS_REGION_NAME: SBG
+swift_bucket_name: backups

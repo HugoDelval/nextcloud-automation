@@ -13,7 +13,7 @@ The goal of this project is to automate the deployment of a stable nextcloud ins
 ## Prerequisites
 
 - Having a debian-based server (you need an apt package manager)
-- A DNS entry pointing to your server
+- 2 DNS entries pointing to your server: one for NextCloud and another for Collabora (ex: nextcloud.yourdomain.tld & collabora.yourdomain.tld)
 - Having a little experience with linux management (eg: how to create ssh key files, managing sshd access, sudoers)
 - Knowing a bit on `ansible` and `docker` are a big plus
 
