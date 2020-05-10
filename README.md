@@ -17,6 +17,32 @@ The goal of this project is to automate the deployment of a stable nextcloud ins
 - Having a little experience with linux management (eg: how to create ssh key files, managing sshd access, sudoers)
 - Knowing a bit on `ansible` and `docker` are a big plus
 
+## Collabora
+
+You can enable Collabora online to edit ODT documents collaboratively. For this, make sure the variable `enable_collabora` is set to `true` in `ansible/playbooks/nextcloud/vars.yml`. You'll also need to setup the variables right bellow it (`collabora_nextcloud_domain`, `collabora_admin_username`, `collabora_domain` + `collabora_admin_password` in `secrets.yml`)
+
+Also you'll need to activate the **Collabora online** app in the Nextcloud's admin. Then you'll have to provide a URL to the collabora Online
+
+## Where will my data be stored?
+
+All the application and backup data will be stored in `/var/disk1/` if you wish to setup a disk
+
+## How to setup backups?
+
+A cron job is creating backups in `/var/disk1/backups`, you can mount a dedicated disk on this directory if you wish.
+
+This cron job is also uploading the backup to swift. If you don't want to use swift, please make sure the variable `enable_swift_backups` is set to `false` in `ansible/playbooks/nextcloud/vars.yml`
+
+## How to restore from backups?
+
+A script named `/usr/local/bin/restore-backup-nextcloud.sh` is present ont the machine. It works as this:
+
+```bash
+restore-backup-nextcloud.sh nextcloud-backup_YYYYMMDD # replace YYYYMMDD my the actual date of the backup
+```
+
+If the backup provided is not present on the disk (in `/var/disk1/backups`) it will try to fetch it from swift (if enabled).
+
 ## How to launch the deployment?
 
 First you need a server. Then get its IP address and change the `ansible/inventory/hosts.ini` by setting this IP addres, eg:
@@ -81,14 +107,6 @@ docker-compose up -d
 ```
 
 Wait a bit, the installation is going on, then go to your
-
-## How to setup backups?
-
-TODO
-
-## How to restore from backups?
-
-TODO
 
 ## Thanks to
 

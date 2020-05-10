@@ -17,7 +17,7 @@ BACKUP_TO_RESTORE="$1"
 cleanup() {
     rv=$?
     /usr/local/bin/docker-compose -f /srv/nextcloud/docker-compose.yml start app
-    rm -rf /var/backups/nextcloud-files
+    rm -rf /var/disk1/backups/nextcloud-files
     exit $rv
 }
 
@@ -26,7 +26,7 @@ trap "cleanup" INT TERM EXIT
 db_file="${BACKUP_TO_RESTORE}-postgres.gz"
 files="${BACKUP_TO_RESTORE}-html.tgz"
 
-cd /var/backups
+cd /var/disk1/backups
 
 {% if enable_swift_backups %}
 

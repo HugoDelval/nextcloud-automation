@@ -10,10 +10,10 @@ cleanup() {
 }
 trap "cleanup" INT TERM EXIT
 
-mkdir -p /var/backups && chmod 750 /var/backups
+mkdir -p /var/disk1/backups && chmod 750 /var/disk1/backups
 
 DATE=$(date +"%Y%m%d")
-BACKUP_FOLDER=/var/backups/nextcloud-backup_${DATE}
+BACKUP_FOLDER=/var/disk1/backups/nextcloud-backup_${DATE}
 
 cd /var/disk1/
 rsync -Aavx nextcloud_var_www_html/ ${BACKUP_FOLDER}
@@ -22,7 +22,7 @@ rm -rf ${BACKUP_FOLDER}
 
 /usr/local/bin/docker-compose -f /srv/nextcloud/docker-compose.yml exec -T --user postgres db pg_dump -U {{ POSTGRES_USER }} {{ POSTGRES_DB }} | gzip -c > ${BACKUP_FOLDER}-postgres.gz
 
-files_to_remove=$(ls -t /var/backups/nextcloud-backup_* | tail -n +{{ number_of_backups_to_keep_on_disk*2 }})
+files_to_remove=$(ls -t /var/disk1/backups/nextcloud-backup_* | tail -n +{{ number_of_backups_to_keep_on_disk*2 }})
 
 # remove old backups
 [[ ! -z "$files_to_remove" ]] && rm $files_to_remove
