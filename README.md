@@ -149,3 +149,8 @@ git submodule update
 
 - enable SMTP from env vars
 - issues with caldav?
+- run these the first time:
+    - `/usr/local/bin/docker-compose -f /srv/nextcloud/docker-compose.yml exec -T --user www-data app php occ maintenance:mode --on`
+    - `/usr/local/bin/docker-compose -f /srv/nextcloud/docker-compose.yml exec -T --user www-data app php occ db:add-missing-indices`
+    - `/usr/local/bin/docker-compose -f /srv/nextcloud/docker-compose.yml exec -T --user www-data app php occ db:convert-filecache-bigint`
+    - `/usr/local/bin/docker-compose -f /srv/nextcloud/docker-compose.yml exec -T --user www-data app php occ maintenance:mode --off`
