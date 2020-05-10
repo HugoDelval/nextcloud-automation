@@ -38,6 +38,12 @@
     dest: /usr/local/bin/backup-nextcloud.sh
     mode: '0750'
 
+- name: install restore backup script
+  template:
+    src: restore_backup.sh
+    dest: /usr/local/bin/restore-backup-nextcloud.sh
+    mode: '0750'
+
 - name: Launch backup every day
   cron:
     name: backup nextcloud
