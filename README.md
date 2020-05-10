@@ -56,10 +56,6 @@ Adapt the `ansible/nextcloud/vars.yml` to your needs. **IMPORTANT:** change the 
 
 Then you need to change the file `ansible/nextcloud/secrets.yml` to set you own secrets. You can choose to use `ansible-vault` (https://docs.ansible.com/ansible/latest/user_guide/vault.html) but it's not mandatory, you can also just put unencrypted variables in `secrets.yml`
 
-```yml
-# Here will go an example of the secret.yml file
-```
-
 You can see in `ansible/playbooks/nextcloud/play.yml` that we're using an `ansible` user with root access through `sudo`. You can adapt this file if you choose another setup. If you choose to stay with this, then you need to create an `ansible` user on you server with sudo access like this (`/etc/sudoers`):
 
 ```
