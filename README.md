@@ -123,8 +123,13 @@ Wait a bit, the installation is going on, then go to your
 ```bash
 python -m venv venv
 . venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements.txt # mainly ansible
 
 git submodule init
 git submodule update
 ```
+
+## TODO
+
+- enable SMTP
+- issues with caldav?
