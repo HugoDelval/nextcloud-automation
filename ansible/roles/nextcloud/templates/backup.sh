@@ -22,7 +22,7 @@ rm -rf ${BACKUP_FOLDER}
 
 /usr/local/bin/docker-compose -f /srv/nextcloud/docker-compose.yml exec -T --user postgres db pg_dump -U {{ POSTGRES_USER }} {{ POSTGRES_DB }} | gzip -c > ${BACKUP_FOLDER}-postgres.gz
 
-files_to_remove=$(ls -t /var/disk1/backups/nextcloud-backup_* | tail -n +{{ number_of_backups_to_keep_on_disk*2 }})
+files_to_remove=$(ls -t /var/disk1/backups/nextcloud-backup_* | tail -n +{{ number_of_backups_to_keep_on_disk*2 + 1 }})
 
 # remove old backups
 [[ ! -z "$files_to_remove" ]] && rm $files_to_remove
